@@ -20,4 +20,10 @@ class StockRepository(private val stockDao: StockDao) {
     suspend fun deleteByName(stockName: String) {
         stockDao.deleteByName(stockName)
     }
+    suspend fun getAllItemNames(): List<String> {
+        return stockDao.getAllItemNames()
+    }
+    suspend fun getItemByName(itemName: String): StockItem? {
+        return stockDao.getItemByName(itemName)
+    }
 }

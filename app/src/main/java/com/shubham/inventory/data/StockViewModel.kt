@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class StockViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -33,6 +34,25 @@ class StockViewModel(application: Application) : AndroidViewModel(application) {
     fun deleteByName(stockName: String) {
         viewModelScope.launch {
             repository.deleteByName(stockName)
+        }
+    }
+
+    fun getAllItemNames(onNamesFetched: (List<String>) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val itemNames = repository.getAllItemNames()
+            withContext(Dispatchers.Main) {
+                onNamesFetched(itemNames) // Callback to return the names on the main thread
+            }
+        }
+    }
+
+    fun getItemByName(itemName: String, onItemFetched: (StockItem?) -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val stockItem = repository.getItemByName(itemName)
+            withContext(Dispatchers.Main) {
+                // This ensures that the result is returned on the main thread (UI thread)
+                onItemFetched(stockItem)
+            }
         }
     }
 }
