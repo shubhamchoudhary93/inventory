@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.shubham.inventory.data.StockItem
 import com.shubham.inventory.databinding.ItemStockBinding
 
-class StockListAdapter :
+class StockListAdapter(private val listener: OnItemClickListener) :
     ListAdapter<StockItem, StockListAdapter.StockViewHolder>(StockDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
         val binding = ItemStockBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return StockViewHolder(binding)
+        return StockViewHolder(binding, listener)
     }
 
     override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
@@ -21,12 +21,20 @@ class StockListAdapter :
         holder.bind(currentItem)
     }
 
-    class StockViewHolder(private val binding: ItemStockBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class StockViewHolder(
+        private val binding: ItemStockBinding,
+        private val listener: OnItemClickListener // Store the listener
+    ) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(stockItem: StockItem) {
             binding.itemName.text = stockItem.itemName
             binding.itemQuantity.text = stockItem.quantity.toString()
             binding.itemDescription.text = stockItem.description
+
+            // Set the click listener inside the bind method
+            binding.root.setOnClickListener {
+                listener.onItemClick(stockItem) // Now stockItem is in scope
+            }
         }
     }
 }

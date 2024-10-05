@@ -1,6 +1,5 @@
 package com.shubham.inventory.fragments
 
-import android.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.shubham.inventory.data.StockItem
 import com.shubham.inventory.data.StockViewModel
 import com.shubham.inventory.databinding.FragmentUpdateStockBinding
+import com.shubham.inventory.R
 
 class UpdateStockFragment : Fragment() {
 
@@ -27,18 +27,21 @@ class UpdateStockFragment : Fragment() {
 
         // Fetch the item names and set up the dropdown
         stockViewModel.getAllItemNames { itemNames ->
-            val adapter = ArrayAdapter(requireContext(), R.layout.simple_dropdown_item_1line, itemNames)
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, itemNames)
             binding.etItemName.setAdapter(adapter)
             binding.etItemName.threshold = 1
 
             // When an item is selected, fetch its details and populate the fields
-            binding.etItemName.setOnItemClickListener { parent, view, position, id ->
+            binding.etItemName.setOnItemClickListener { parent, _, position, _ ->
                 val selectedItemName = parent.getItemAtPosition(position).toString()
                 stockViewModel.getItemByName(selectedItemName) { stockItem ->
                     if (stockItem != null) {
                         // Pre-fill the quantity and description fields
                         binding.etQuantity.setText(stockItem.quantity.toString())
                         binding.etDescription.setText(stockItem.description)
+                    } else {
+                        showToast("Item not found.")
+                        clearFields() // Clear fields if item not found
                     }
                 }
             }
@@ -70,9 +73,7 @@ class UpdateStockFragment : Fragment() {
                         showToast("Stock updated successfully")
 
                         // Clear the fields after updating
-                        binding.etItemName.text.clear()
-                        binding.etQuantity.text.clear()
-                        binding.etDescription.text.clear()
+                        clearFields()
                     } else {
                         showToast("Item not found.")
                     }
@@ -83,7 +84,35 @@ class UpdateStockFragment : Fragment() {
             }
         }
 
+        // Delete button logic
+        binding.btnDelete.setOnClickListener {
+            val itemName = binding.etItemName.text.toString()
+
+            if (itemName.isBlank()) {
+                showToast("Please select an item to delete.")
+                return@setOnClickListener
+            }
+
+            stockViewModel.getItemByName(itemName) { stockItem ->
+                if (stockItem != null) {
+                    stockViewModel.deleteByName(itemName)
+                    showToast("Item deleted successfully")
+
+                    // Clear the fields after deletion
+                    clearFields()
+                } else {
+                    showToast("Item not found.")
+                }
+            }
+        }
+
         return binding.root
+    }
+
+    private fun clearFields() {
+        binding.etItemName.text.clear()
+        binding.etQuantity.text.clear()
+        binding.etDescription.text.clear()
     }
 
     private fun showToast(message: String) {
