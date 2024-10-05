@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/mainFragment">
+
+    <!-- Main Fragment -->
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.shubham.inventory.fragments.MainFragment"
+        android:label="Main"
+        tools:layout="@layout/fragment_main" />
+
+    <!-- Stock List Fragment -->
+    <fragment
+        android:id="@+id/listStockFragment"
+        android:name="com.shubham.inventory.fragments.ListStockFragment"
+        android:label="List Stock"
+        tools:layout="@layout/fragment_list_stock" />
+
+    <!-- New Stock Fragment -->
+    <fragment
+        android:id="@+id/newStockFragment"
+        android:name="com.shubham.inventory.fragments.NewStockFragment"
+        android:label="New Stock"
+        tools:layout="@layout/fragment_new_stock" />
+
+    <!-- Update Stock Fragment -->
+    <fragment
+        android:id="@+id/updateStockFragment"
+        android:name="com.shubham.inventory.fragments.UpdateStockFragment"
+        android:label="Update Stock"
+        tools:layout="@layout/fragment_update_stock" />
+</navigation>
