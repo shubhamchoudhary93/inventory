@@ -37,8 +37,9 @@ class UpdateStockFragment : Fragment() {
                 stockViewModel.getItemByName(selectedItemName) { stockItem ->
                     if (stockItem != null) {
                         // Pre-fill the quantity and description fields
+                        binding.etCategory.setText(stockItem.category)
+                        binding.etOpeningQty.setText(stockItem.quantity.toString())
                         binding.etQuantity.setText(stockItem.quantity.toString())
-                        binding.etDescription.setText(stockItem.description)
                     } else {
                         showToast("Item not found.")
                         clearFields() // Clear fields if item not found
@@ -50,15 +51,17 @@ class UpdateStockFragment : Fragment() {
         // Update button logic
         binding.btnUpdate.setOnClickListener {
             val itemName = binding.etItemName.text.toString()
+            val newCategory = binding.etCategory.text.toString()
+            val newOpeningQtyStr = binding.etOpeningQty.text.toString()
             val newQuantityStr = binding.etQuantity.text.toString()
-            val newDescription = binding.etDescription.text.toString()
 
-            if (itemName.isBlank() || newQuantityStr.isBlank() || newDescription.isBlank()) {
+            if (itemName.isBlank() || newCategory.isBlank() || newOpeningQtyStr.isBlank() || newQuantityStr.isBlank()) {
                 showToast("Please fill all fields.")
                 return@setOnClickListener
             }
 
             try {
+                val newOpeningQty = newOpeningQtyStr.toInt()
                 val newQuantity = newQuantityStr.toInt()
 
                 // Fetch item by name first to get its `id`
@@ -66,8 +69,9 @@ class UpdateStockFragment : Fragment() {
                     if (stockItem != null) {
                         // Update the existing stock item with new values
                         val updatedStockItem = stockItem.copy(
-                            quantity = newQuantity,
-                            description = newDescription
+                            category = newCategory,
+                            openingQty = newOpeningQty,
+                            quantity = newQuantity
                         )
                         stockViewModel.update(updatedStockItem)
                         showToast("Stock updated successfully")
@@ -111,8 +115,9 @@ class UpdateStockFragment : Fragment() {
 
     private fun clearFields() {
         binding.etItemName.text.clear()
+        binding.etCategory.text.clear()
+        binding.etOpeningQty.text.clear()
         binding.etQuantity.text.clear()
-        binding.etDescription.text.clear()
     }
 
     private fun showToast(message: String) {

@@ -25,16 +25,17 @@ class NewStockFragment : Fragment() {
         binding.btnSave.setOnClickListener {
             if (validateInput()) {
                 val itemName = binding.etItemName.text.toString()
-                val quantity = binding.etQuantity.text.toString().toInt()
-                val description = binding.etDescription.text.toString()
+                val category = binding.etCategory.text.toString()
+                val openingQty = binding.etOpeningQty.text.toString().toInt()
+                val quantity = openingQty
 
-                val stockItem = StockItem(itemName = itemName, quantity = quantity, description = description)
+                val stockItem = StockItem(itemName = itemName, category= category, openingQty = openingQty, quantity = quantity)
                 stockViewModel.insert(stockItem)
 
                 // Clear the fields after saving
                 binding.etItemName.text.clear()
-                binding.etQuantity.text.clear()
-                binding.etDescription.text.clear()
+                binding.etCategory.text.clear()
+                binding.etOpeningQty.text.clear()
             }
         }
 
@@ -46,33 +47,33 @@ class NewStockFragment : Fragment() {
         var isValid = true
 
         val itemName = binding.etItemName.text.toString()
-        val quantityStr = binding.etQuantity.text.toString()
-        val description = binding.etDescription.text.toString()
+        val category = binding.etCategory.text.toString()
+        val openingQtyStr = binding.etOpeningQty.text.toString()
 
         if (itemName.isBlank()) {
             binding.etItemName.error = "Item name cannot be empty"
             isValid = false
         }
 
-        if (quantityStr.isBlank()) {
-            binding.etQuantity.error = "Quantity cannot be empty"
+        if (category.isBlank()) {
+            binding.etCategory.error = "Category cannot be empty"
+            isValid = false
+        }
+
+        if (openingQtyStr.isBlank()) {
+            binding.etOpeningQty.error = "Opening Quantity cannot be empty"
             isValid = false
         } else {
             try {
-                val quantity = quantityStr.toInt()
-                if (quantity < 0) {
-                    binding.etQuantity.error = "Quantity cannot be negative"
+                val openingQty = openingQtyStr.toInt()
+                if (openingQty < 0) {
+                    binding.etOpeningQty.error = "Opening Quantity cannot be negative"
                     isValid = false
                 }
             } catch (e: NumberFormatException) {
-                binding.etQuantity.error = "Invalid number"
+                binding.etOpeningQty.error = "Invalid number"
                 isValid = false
             }
-        }
-
-        if (description.isBlank()) {
-            binding.etDescription.error = "Description cannot be empty"
-            isValid = false
         }
 
         return isValid

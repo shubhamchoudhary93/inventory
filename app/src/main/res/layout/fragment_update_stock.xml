@@ -17,6 +17,25 @@
             android:layout_marginBottom="8dp" />
 
         <EditText
+            android:id="@+id/etCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Category"
+            android:contentDescription="Enter category"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
+            android:id="@+id/etOpeningQty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Opening Qty"
+            android:inputType="number"
+            android:contentDescription="Enter opening qty"
+            android:padding="8dp"
+            android:layout_marginBottom="8dp" />
+
+        <EditText
             android:id="@+id/etQuantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -25,15 +44,6 @@
             android:contentDescription="Enter quantity"
             android:padding="8dp"
             android:layout_marginBottom="8dp" />
-
-        <EditText
-            android:id="@+id/etDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Description"
-            android:contentDescription="Enter description"
-            android:padding="8dp"
-            android:layout_marginBottom="16dp" />
 
         <Button
             android:id="@+id/btnUpdate"

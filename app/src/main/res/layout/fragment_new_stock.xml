@@ -13,17 +13,17 @@
             android:hint="Item Name" />
 
         <EditText
-            android:id="@+id/etQuantity"
+            android:id="@+id/etCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Quantity"
-            android:inputType="number" />
+            android:hint="Category" />
 
         <EditText
-            android:id="@+id/etDescription"
+            android:id="@+id/etOpeningQty"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Description" />
+            android:hint="Opening Qty"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btnSave"

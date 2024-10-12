@@ -1,6 +1,7 @@
 package com.shubham.inventory.fragments
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -13,7 +14,7 @@ class StockListAdapter(private val listener: OnItemClickListener) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
         val binding = ItemStockBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return StockViewHolder(binding, listener)
+        return StockViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: StockViewHolder, position: Int) {
@@ -21,22 +22,44 @@ class StockListAdapter(private val listener: OnItemClickListener) :
         holder.bind(currentItem)
     }
 
-    class StockViewHolder(
-        private val binding: ItemStockBinding,
-        private val listener: OnItemClickListener // Store the listener
-    ) : RecyclerView.ViewHolder(binding.root) {
+    inner class StockViewHolder(
+        private val binding: ItemStockBinding
+    ) : RecyclerView.ViewHolder(binding.root), View.OnClickListener  {
+
+        private lateinit var currentStockItem: StockItem
+
+        init {
+            // Set the OnClickListener for the whole item view
+            itemView.setOnClickListener(this)
+        }
+
 
         fun bind(stockItem: StockItem) {
+            currentStockItem = stockItem
             binding.itemName.text = stockItem.itemName
+            binding.itemCategory.text = stockItem.category
+            binding.itemOpeningQty.text = stockItem.openingQty.toString()
             binding.itemQuantity.text = stockItem.quantity.toString()
-            binding.itemDescription.text = stockItem.description
 
             // Set the click listener inside the bind method
             binding.root.setOnClickListener {
                 listener.onItemClick(stockItem) // Now stockItem is in scope
             }
+
+        }
+
+        // Implement the onClick method as part of View.OnClickListener
+        override fun onClick(v: View?) {
+            listener.onItemClick(currentStockItem)  // Pass the clicked item to the listener
         }
     }
+
+
+    // Interface for click listener
+    interface OnItemClickListener {
+        fun onItemClick(stockItem: StockItem)
+    }
+
 }
 
 class StockDiffCallback : DiffUtil.ItemCallback<StockItem>() {

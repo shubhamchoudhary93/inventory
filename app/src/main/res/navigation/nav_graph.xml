@@ -16,19 +16,40 @@
         android:id="@+id/listStockFragment"
         android:name="com.shubham.inventory.fragments.ListStockFragment"
         android:label="List Stock"
-        tools:layout="@layout/fragment_list_stock" />
+        tools:layout="@layout/fragment_list_stock" >
+        <action
+            android:id="@+id/action_listStockFragment_to_stockDetailFragment"
+            app:destination="@id/stockDetailFragment" />
+    </fragment>
 
     <!-- New Stock Fragment -->
     <fragment
         android:id="@+id/newStockFragment"
         android:name="com.shubham.inventory.fragments.NewStockFragment"
         android:label="New Stock"
-        tools:layout="@layout/fragment_new_stock" />
+        tools:layout="@layout/fragment_new_stock" >
+        <action
+            android:id="@+id/action_newStockFragment_to_stockDetailFragment"
+            app:destination="@id/stockDetailFragment" />
+    </fragment>
 
     <!-- Update Stock Fragment -->
     <fragment
         android:id="@+id/updateStockFragment"
         android:name="com.shubham.inventory.fragments.UpdateStockFragment"
         android:label="Update Stock"
-        tools:layout="@layout/fragment_update_stock" />
+        tools:layout="@layout/fragment_update_stock" >
+        <action
+            android:id="@+id/action_updateStockFragment_to_stockDetailFragment"
+            app:destination="@id/stockDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/stockDetailFragment"
+        android:name="com.shubham.inventory.fragments.StockDetailFragment"
+        tools:layout="@layout/fragment_stock_detail">
+        <argument
+            android:name="stockItem"
+            app:argType="com.shubham.inventory.data.StockItem" />
+    </fragment>
 </navigation>

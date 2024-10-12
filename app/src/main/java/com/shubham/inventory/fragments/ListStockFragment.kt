@@ -8,14 +8,14 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.shubham.inventory.R
 import com.shubham.inventory.data.StockItem
 import com.shubham.inventory.data.StockViewModel
 import com.shubham.inventory.databinding.FragmentListStockBinding
 
-class ListStockFragment : Fragment(), OnItemClickListener {
+class ListStockFragment : Fragment(), StockListAdapter.OnItemClickListener {
 
     private lateinit var binding: FragmentListStockBinding
     private val stockViewModel: StockViewModel by viewModels()
@@ -45,10 +45,10 @@ class ListStockFragment : Fragment(), OnItemClickListener {
         // Clear binding reference to prevent memory leaks
         binding.unbind()
     }
-
+    // Handle item clicks
     override fun onItemClick(stockItem: StockItem) {
-        // Handle the click event (e.g., navigate to a details screen)
-        // Example: show a toast, or navigate to an edit screen
-        Toast.makeText(requireContext(), "Clicked: ${stockItem.itemName}", Toast.LENGTH_SHORT).show()
+        // Navigate to the detail screen or handle the click event
+        val action = ListStockFragmentDirections.actionListStockFragmentToStockDetailFragment(stockItem)
+        findNavController().navigate(action)
     }
 }
